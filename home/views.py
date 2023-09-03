@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from .models import RoyalHotelModel, User_Reviews
 from django.db.models import Q
+from .forms import ReviewForm
 
 
 # Create your views here.
@@ -58,5 +59,18 @@ def user_logout(request):
 def hotel_details(request, id):
     hotel = get_object_or_404(RoyalHotelModel, pk=id)
     reviews = User_Reviews.objects.filter(hotel=hotel)
-    print(reviews)
-    return render(request, "hotel_detail.html", {"hotel": hotel, "reviews": reviews})
+    if request.method == "POST":
+        review_form = ReviewForm(request.POST)
+        if review_form.is_valid():
+            review = review_form.save(commit=False)
+            review.hotel = hotel
+            review.user = request.user
+            review.save()
+    else:
+        review_form = ReviewForm(instance=request.user)
+
+    return render(
+        request,
+        "hotel_detail.html",
+        {"hotel": hotel, "reviews": reviews, "review_form": review_form},
+    )

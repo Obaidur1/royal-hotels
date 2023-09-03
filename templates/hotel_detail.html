@@ -1,4 +1,6 @@
 {% extends "base.html" %}
+{% load tailwind_filters %}
+
 {% block content %}
 <div style="width: 80%;margin: auto;" class="flex flex-row p-4">
     <img style="border-radius: 10px;" src="{{ hotel.photos.url }}" alt="{{ hotel.name }} Photo">
@@ -74,4 +76,17 @@
     {% endfor %}
 </ul>
 
+{% if user.is_authenticated %}
+<br>
+<h3>Add Your Review</h3>
+<div style="width: 50%;margin: auto;">
+    <form method="post">
+        {% csrf_token %}
+        {{ review_form|crispy }}
+        <button type="submit">Submit Review</button>
+    </form>
+</div>
+{% else %}
+<p>Login to leave review</p>
+{% endif %}
 {% endblock content %}
