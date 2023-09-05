@@ -67,7 +67,7 @@ def hotel_details(request, id):
             review.user = request.user
             review.save()
     else:
-        review_form = ReviewForm(instance=request.user)
+        review_form = ReviewForm()
 
     return render(
         request,
