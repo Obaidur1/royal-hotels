@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from .forms import UpdateUser
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import PasswordChangeForm
+from home.models import User_Reviews
 
 # from django.contrib.auth.forms import UserChangeForm
 from django.contrib import messages
@@ -35,3 +36,10 @@ def password_change(request):
     else:
         form = PasswordChangeForm(user=request.user)
     return render(request, "change-password.html", {"form": form})
+
+
+@login_required(login_url="login")
+def my_reviews(request):
+    user = request.user
+    reviews = User_Reviews.objects.filter(user=user)
+    return render(request, "my_reviews.html", {"reviews": reviews})

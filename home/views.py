@@ -59,18 +59,37 @@ def user_logout(request):
 def hotel_details(request, id):
     hotel = get_object_or_404(RoyalHotelModel, pk=id)
     reviews = User_Reviews.objects.filter(hotel=hotel)
-    if request.method == "POST":
-        review_form = ReviewForm(request.POST)
+    user = request.user
+    user_has_review = None
+    if user.is_authenticated:
+        user_has_review = User_Reviews.objects.filter(user=user, hotel=hotel).first()
+
+    if request.method == "POST" and user.is_authenticated:
+        review_form = ReviewForm(request.POST, instance=user_has_review)
         if review_form.is_valid():
             review = review_form.save(commit=False)
             review.hotel = hotel
             review.user = request.user
             review.save()
-    else:
+    if user_has_review is None and user.is_authenticated:
         review_form = ReviewForm()
+        message = "You haven't reviewed this hotel yet. Please leave a review."
+    elif user.is_authenticated:
+        review_form = ReviewForm(instance=user_has_review)
+        message = (
+            "You have already reviewed this hotel. You can update your review below."
+        )
+    else:
+        review_form = None
+        message = "Please log in to leave a review."
 
     return render(
         request,
         "hotel_detail.html",
-        {"hotel": hotel, "reviews": reviews, "review_form": review_form},
+        {
+            "hotel": hotel,
+            "reviews": reviews,
+            "review_form": review_form,
+            "message": message,
+        },
     )

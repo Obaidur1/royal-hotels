@@ -1,0 +1,13 @@
+{% extends "dashboard.html" %}
+{% block content %}
+<h2 class="mb-2 text-lg font-semibold text-gray-900">My reviews</h2>
+<ol class="max-w-md space-y-1 text-gray-500 list-decimal list-inside dark:text-gray-400">
+    {% for review in reviews %}
+    <li>
+        <a href="{% url 'hotel_detail' review.hotel.id %}" class="font-semibold text-gray-900">{{review.hotel}}</a> with
+        Ratings <span class="font-semibold text-gray-900">{{review.rating}}</span> {{review.review_text}}
+    </li>
+    {% endfor %}
+
+</ol>
+{% endblock content %}

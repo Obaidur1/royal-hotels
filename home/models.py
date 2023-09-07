@@ -24,8 +24,9 @@ class RoyalHotelModel(models.Model):
 class User_Reviews(models.Model):
     hotel = models.ForeignKey(RoyalHotelModel, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    review_text = models.TextField(max_length=100)
+    review_text = models.CharField(max_length=200)
     rating = models.IntegerField(validators=[MaxValueValidator(5)])
 
     class Meta:
         verbose_name_plural = "Reviews"
+        unique_together = ("hotel", "user")
