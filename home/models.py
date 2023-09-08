@@ -46,5 +46,5 @@ def update_average_rating(sender, instance, **kwargs):
     average_rating = User_Reviews.objects.filter(hotel=hotel).aggregate(Avg("rating"))[
         "rating__avg"
     ]
-    hotel.average_rating = average_rating or 0
+    hotel.average_rating = int(average_rating) or 0
     hotel.save()
