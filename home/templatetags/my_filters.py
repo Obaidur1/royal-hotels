@@ -6,5 +6,7 @@ register = template.Library()
 
 @register.filter(name="stars")
 def stars(value):
+    if value == 0:
+        return "No reviews"
     star = "&#128970;" * value
     return mark_safe(star)
