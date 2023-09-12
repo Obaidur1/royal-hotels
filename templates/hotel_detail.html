@@ -4,19 +4,28 @@
 
 {% block content %}
 <div style="width: 80%;margin: auto;" class="flex flex-row p-4">
-    <img style="border-radius: 10px;" src="{{ hotel.photos.url }}" alt="{{ hotel.name }} Photo">
     <div class="flex flex-col gap-y-2.5 p-10">
-        <h1 class="text-2xl font-medium">{{ hotel.name }}</h1>
-        <p><strong>Address:</strong> {{ hotel.address }}</p>
+        <div class="flex flex-row gap-1">
+            <svg class="w-6 h-6 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                viewBox="0 0 16 20">
+                <path
+                    d="M8 0a7.992 7.992 0 0 0-6.583 12.535 1 1 0 0 0 .12.183l.12.146c.112.145.227.285.326.4l5.245 6.374a1 1 0 0 0 1.545-.003l5.092-6.205c.206-.222.4-.455.578-.7l.127-.155a.934.934 0 0 0 .122-.192A8.001 8.001 0 0 0 8 0Zm0 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6Z" />
+            </svg>
+            <p>{{ hotel.address }}</p>
+        </div>
+        <h1 class="mb-4 text-4xl font-extrabold leading-none tracking-normal text-gray-700 md:text-5xl lg:text-6xl ">
+            {{ hotel.name }}</h1>
+
         <p><strong>Description:</strong> {{ hotel.description }}</p>
-        <p><strong>Cost per Day:</strong> ${{ hotel.cost_per_day }}</p>
+        <p><strong>Cost per Day:</strong> ৳{{ hotel.cost_per_day }}</p>
         <p><strong>User Ratings:</strong> {{hotel.average_rating |stars}}</p>
 
-        <!-- "Book Now" button that links to a booking page -->
+
         <a href=""
-            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Book
+            class="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Book
             Now</a>
     </div>
+    <img style="border-radius: 30px;" src="{{ hotel.photos.url }}" alt="{{ hotel.name }} Photo">
 
 
 
@@ -25,7 +34,7 @@
 <ul>
     {% for review in reviews %}
 
-    <div class="max-w-sm p-6 bg-gray-50 border border-gray-200 rounded-lg shadow m-2">
+    <div class="max-w-sm p-6 bg-blue-100 border border-gray-200 rounded-lg shadow m-2">
         <figure class="max-w-screen-md">
             <div class="flex items-center mb-4 text-gray-900">
                 {{review.rating|stars}}
