@@ -3,7 +3,7 @@
 {% load my_filters %}
 
 {% block content %}
-<div style="width: 80%;margin: auto;" class="flex flex-col lg:flex-row p-4">
+<div class="flex flex-col lg:flex-row p-5 m-5">
     <div class="flex flex-col gap-y-2.5 p-10">
         <div class="flex flex-row gap-1">
             <svg class="w-6 h-6 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
@@ -25,55 +25,57 @@
             class="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Book
             Now</a>
     </div>
-    <img style="border-radius: 30px;" src="{{ hotel.photos.url }}" alt="{{ hotel.name }} Photo">
+    <img style="border-radius: 30px; width: 600px;" src="{{ hotel.photos.url }}" alt="{{ hotel.name }} Photo">
 
 
 
 </div>
-<h2>Reviews</h2>
-<ul>
-    {% for review in reviews %}
+<div class="p-5 m-5">
+    <h2>Reviews</h2>
+    <ul>
+        {% for review in reviews %}
 
-    <div class="max-w-sm p-6 bg-blue-100 border border-gray-200 rounded-lg shadow m-2">
-        <figure class="max-w-screen-md">
-            <div class="flex items-center mb-4 text-gray-900">
-                {{review.rating|stars}}
-            </div>
-            <p><strong>Rating:</strong> {{ review.rating }}/5</p>
-            <blockquote>
-                <p class="text-2xl font-semibold text-gray-900 ">{{ review.review_text }}</p>
-            </blockquote>
-            <figcaption class="flex items-center mt-6 space-x-3">
-                <img class="w-6 h-6 rounded-full"
-                    src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/bonnie-green.png"
-                    alt="profile picture">
-                <div class="flex items-center divide-x-2 divide-gray-300 ">
-                    <cite class="pr-3 font-medium text-gray-900 ">{{ review.user.username }}</cite>
-
+        <div class="max-w-sm p-6 bg-blue-100 border border-gray-200 rounded-lg shadow m-2">
+            <figure class="max-w-screen-md">
+                <div class="flex items-center mb-4 text-gray-900">
+                    {{review.rating|stars}}
                 </div>
-            </figcaption>
-        </figure>
+                <p><strong>Rating:</strong> {{ review.rating }}/5</p>
+                <blockquote>
+                    <p class="text-2xl font-semibold text-gray-900 ">{{ review.review_text }}</p>
+                </blockquote>
+                <figcaption class="flex items-center mt-6 space-x-3">
+                    <img class="w-6 h-6 rounded-full"
+                        src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/bonnie-green.png"
+                        alt="profile picture">
+                    <div class="flex items-center divide-x-2 divide-gray-300 ">
+                        <cite class="pr-3 font-medium text-gray-900 ">{{ review.user.username }}</cite>
+
+                    </div>
+                </figcaption>
+            </figure>
+        </div>
+
+
+
+
+        {% empty %}
+        <li>No reviews available.</li>
+        {% endfor %}
+    </ul>
+    <br>
+    <h3>{{message}}</h3>
+    {% if review_form %}
+    <br>
+    <div style="width: 50%;margin: auto;">
+        <form method="post">
+            {% csrf_token %}
+            {{ review_form|crispy }}
+            <button
+                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                type="submit">Submit Review</button>
+        </form>
     </div>
-
-
-
-
-    {% empty %}
-    <li>No reviews available.</li>
-    {% endfor %}
-</ul>
-<br>
-<h3>{{message}}</h3>
-{% if review_form %}
-<br>
-<div style="width: 50%;margin: auto;">
-    <form method="post">
-        {% csrf_token %}
-        {{ review_form|crispy }}
-        <button
-            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-            type="submit">Submit Review</button>
-    </form>
 </div>
 <style>
     .block {
